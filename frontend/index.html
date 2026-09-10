@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GGI TuckShop | ESSENTIALS & CANTEEN CART</title>
+  <meta name="description" content="Pre-order tuck shop items, stationery, packed snacks, and daily essentials. Dynamic UPI payments, 4-digit token pickup, and restock alerts." />
+  
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- QRCode.js for Dynamic UPI Pay -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="theme-light">
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-group" id="btn-brand-home">
+        <div class="brand-logo-wrap">
+          <i class="fa-solid fa-store brand-icon"></i>
+          <span class="live-pulse"></span>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">GGI <span class="accent">TuckShop</span></h1>
+          <span class="brand-badge">ESSENTIALS & CANTEEN KART</span>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar (Customer Mode) -->
+      <div class="header-search-wrap customer-only" id="header-search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="menu-search-input" placeholder="Search registers, pens, chips, biscuits, cold coffee, soap..." autocomplete="off" />
+        <button id="search-clear-btn" class="search-clear hidden" title="Clear search">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Sound FX Toggle -->
+        <button id="sound-toggle-btn" class="btn-icon" title="Toggle Sound FX" aria-label="Toggle Sound FX">
+          <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+        </button>
+
+        <!-- Active Token Pass Shortcut -->
+        <button id="active-pass-btn" class="btn-active-pass hidden" title="View Active Order Pass">
+          <span class="pass-pulse"></span>
+          <i class="fa-solid fa-ticket"></i>
+          <span class="pass-text">Token <strong id="header-token-label">#----</strong></span>
+        </button>
+
+        <!-- Cart Trigger Button -->
+        <button id="cart-drawer-btn" class="btn-cart customer-only" aria-label="View Shopping Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-label">Cart</span>
+          <span id="cart-count-badge" class="badge-count">0</span>
+        </button>
+
+        <!-- Admin / Shopkeeper Switch Button -->
+        <button id="view-mode-toggle-btn" class="btn-admin-toggle" title="Switch to Shopkeeper Control Center">
+          <i class="fa-solid fa-user-shield" id="mode-icon"></i>
+          <span id="mode-text">Shopkeeper Admin</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main id="app-viewport">
+    
+    <!-- ========================================================================= -->
+    <!-- CUSTOMER VIEW                                                             -->
+    <!-- ========================================================================= -->
+    <section id="customer-view" class="view-panel active-view">
+      
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-tag"><i class="fa-solid fa-bolt"></i> Tuck Shop Express Engine</div>
+          <h2 class="hero-heading">Skip the Counter Rush.</h2>
+          <p class="hero-subtext">Pre-order tuck shop items, pay via UPI or at counter, and collect instantly with your unique pickup token.</p>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills (4 Vertical Tabs) -->
+      <div class="category-nav-sticky">
+        <div class="category-nav-scroll" id="category-filter-bar">
+          <button class="cat-pill active" data-category="ALL">
+            <i class="fa-solid fa-border-all"></i> All Items
+          </button>
+          <button class="cat-pill" data-category="Beverages">
+            <i class="fa-solid fa-mug-hot"></i> Beverages
+          </button>
+          <button class="cat-pill" data-category="Snacks & Biscuits">
+            <i class="fa-solid fa-cookie-bite"></i> Snacks & Biscuits
+          </button>
+          <button class="cat-pill" data-category="Stationery & Supplies">
+            <i class="fa-solid fa-book-bookmark"></i> Stationery & Supplies
+          </button>
+          <button class="cat-pill" data-category="Daily Essentials">
+            <i class="fa-solid fa-pump-soap"></i> Daily Essentials
+          </button>
+        </div>
+      </div>
+
+      <!-- Catalog Section -->
+      <div class="menu-section-container">
+        <div class="menu-header-bar">
+          <div>
+            <h3 class="section-title" id="current-category-title">All Items</h3>
+            <p class="section-subtitle">Tuck shop essentials & refreshments ready for quick counter handover</p>
+          </div>
+          <div class="menu-item-count-label" id="menu-counter-label">Showing 16 items</div>
+        </div>
+
+        <!-- Menu / Product Grid -->
+        <div class="menu-grid" id="menu-grid">
+          <!-- Dynamically populated via app.js -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="menu-empty-state" class="empty-state hidden">
+          <i class="fa-solid fa-box-open empty-icon"></i>
+          <h4>No matching supplies found!</h4>
+          <p>Try searching for registers, tea, Maggi, chips, soap, or reset your filters.</p>
+          <button id="reset-filter-btn" class="btn btn-secondary">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SHOPKEEPER / KDS ADMIN VIEW                                               -->
+    <!-- ========================================================================= -->
+    <section id="admin-view" class="view-panel hidden-view">
+      
+      <!-- Admin Control Topbar -->
+      <div class="admin-topbar">
+        <div class="admin-title-wrap">
+          <div class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Campus Control Center</div>
+          <h2>Tuck Shop & Canteen Operations Hub</h2>
+        </div>
+        
+        <div class="admin-actions-bar">
+          <div class="live-sync-indicator" title="Connected to Real-Time WebSocket">
+            <span class="sync-dot"></span>
+            <span id="ws-status-text">Live Sync Active</span>
+          </div>
+
+          <button id="btn-add-product" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Add New Product
+          </button>
+
+          <button id="btn-exit-admin" class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Student View
+          </button>
+        </div>
+      </div>
+
+      <!-- Performance Metrics -->
+      <div class="kds-metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon-wrap bg-blue">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-title">Today's Orders</span>
+            <h3 class="metric-val" id="metric-total-orders">0</h3>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap bg-amber">
+            <i class="fa-solid fa-spinner"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-title">In Progress</span>
+            <h3 class="metric-val" id="metric-preparing">0</h3>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap bg-green">
+            <i class="fa-solid fa-bell-concierge"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-title">Ready for Pickup</span>
+            <h3 class="metric-val" id="metric-ready">0</h3>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap bg-orange">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-title">Today's Revenue</span>
+            <h3 class="metric-val" id="metric-revenue">₹0.00</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab Switcher -->
+      <div class="admin-tab-nav">
+        <button class="admin-tab active" id="tab-btn-kds">
+          <i class="fa-solid fa-tv"></i> Active Orders Board
+        </button>
+        <button class="admin-tab" id="tab-btn-menu">
+          <i class="fa-solid fa-boxes-stacked"></i> Inventory Hub (Full CRUD)
+        </button>
+        <button class="admin-tab" id="tab-btn-restock">
+          <i class="fa-solid fa-bell"></i> Restock Demands <span id="restock-tab-badge" class="badge-count" style="margin-left:4px;">0</span>
+        </button>
+      </div>
+
+      <!-- SUB-TAB 1: Active Orders Queue (KDS) -->
+      <div id="admin-kds-tab-content" class="admin-tab-content active-tab">
+        <div class="kds-filter-bar">
+          <div class="kds-status-filters" id="kds-status-filter-group">
+            <button class="kds-filter-btn active" data-status="ACTIVE">Active Queue</button>
+            <button class="kds-filter-btn" data-status="Pending">Pending</button>
+            <button class="kds-filter-btn" data-status="In Progress">In Progress</button>
+            <button class="kds-filter-btn" data-status="Ready for Counter Pickup">Ready for Counter Pickup</button>
+            <button class="kds-filter-btn" data-status="Handed Over">Handed Over</button>
+            <button class="kds-filter-btn" data-status="ALL">All Orders</button>
+          </div>
+          
+          <div class="kds-audio-alert-wrap">
+            <label class="switch-toggle" title="Kitchen Bell Alert on New Order">
+              <input type="checkbox" id="kitchen-audio-toggle" checked />
+              <span class="slider"></span>
+            </label>
+            <span class="kds-audio-label"><i class="fa-solid fa-bell"></i> Order Arrival Chime</span>
+          </div>
+        </div>
+
+        <!-- Token Board Grid -->
+        <div class="kds-orders-grid" id="kds-orders-grid">
+          <!-- Populated dynamically via app.js -->
+        </div>
+
+        <div id="kds-empty-state" class="empty-state hidden">
+          <i class="fa-solid fa-clipboard-check empty-icon"></i>
+          <h4>All Orders Handed Over!</h4>
+          <p>No active orders waiting in this view. Incoming orders will ding with a chime.</p>
+        </div>
+      </div>
+
+      <!-- SUB-TAB 2: Inventory Management Hub (Full CRUD) -->
+      <div id="admin-menu-tab-content" class="admin-tab-content hidden-tab">
+        <div class="menu-admin-controls">
+          <div class="menu-admin-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="admin-menu-search" placeholder="Filter by product name or category..." />
+          </div>
+          <div class="menu-admin-quick-tip">
+            <i class="fa-solid fa-circle-info"></i> Click price to edit inline (press Enter to save). Toggle switch immediately changes stock. Use <strong>Edit</strong> to modify details or <strong>Delete</strong> to remove.
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="menu-admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price (₹)</th>
+                <th>Live Stock State</th>
+                <th>Restock Demand</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menu-admin-table-body">
+              <!-- Dynamically populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUB-TAB 3: Restock Demands Hub -->
+      <div id="admin-restock-tab-content" class="admin-tab-content hidden-tab">
+        <div class="restock-intro-banner">
+          <div class="restock-intro-text">
+            <h4><i class="fa-solid fa-fire-flame-curved text-accent"></i> Live Student Restock Requests</h4>
+            <p>Students who tapped <strong>"Notify Me When Available"</strong> on sold-out products are registered here. Click <strong>Restock & Send Alerts</strong> when new stock arrives to notify them instantly.</p>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="menu-admin-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Waiting Students</th>
+                <th>Subscriber Contacts / Roll Nos</th>
+                <th>Notification Status</th>
+                <th>Restock Action</th>
+              </tr>
+            </thead>
+            <tbody id="restock-admin-table-body">
+              <!-- Dynamically populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OVER CART DRAWER                                                    -->
+  <!-- ========================================================================= -->
+  <div id="cart-drawer-overlay" class="drawer-overlay"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <div class="cart-header-title">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Your Tuck Shop Cart</h3>
+      </div>
+      <button id="cart-close-btn" class="drawer-close-btn" aria-label="Close Cart">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Cart Items Scroll List -->
+    <div class="cart-items-container" id="cart-items-list">
+      <!-- Dynamically filled via app.js -->
+    </div>
+
+    <!-- Empty Cart Notice -->
+    <div id="cart-empty-notice" class="cart-empty-view">
+      <div class="cart-empty-art">
+        <i class="fa-solid fa-bag-shopping"></i>
+      </div>
+      <h4>Your Cart is empty!</h4>
+      <p>Add stationery, notebooks, coffee, Maggi, or snacks to avoid the counter queue.</p>
+      <button id="cart-browse-btn" class="btn btn-primary">Browse Catalog</button>
+    </div>
+
+    <!-- Cart Footer & Bill Summary -->
+    <div class="cart-footer" id="cart-footer-summary">
+      <div class="bill-breakdown">
+        <div class="bill-row">
+          <span>Subtotal</span>
+          <span id="bill-subtotal" class="font-medium">₹0.00</span>
+        </div>
+        <div class="bill-row text-muted">
+          <span>Express Counter Pickup Fee</span>
+          <span class="text-success font-medium">FREE</span>
+        </div>
+        <div class="bill-row text-muted">
+          <span>Taxes & Campus Surcharges</span>
+          <span class="text-success font-medium">₹0.00</span>
+        </div>
+        <div class="bill-divider"></div>
+        <div class="bill-row total-row">
+          <span>Grand Total</span>
+          <span id="bill-grand-total" class="bill-total-price">₹0.00</span>
+        </div>
+      </div>
+
+      <div class="cart-actions-row">
+        <button id="cart-clear-btn" class="btn btn-ghost" title="Empty Cart">
+          <i class="fa-regular fa-trash-can"></i> Clear
+        </button>
+        <button id="cart-checkout-btn" class="btn btn-primary btn-checkout">
+          Proceed to Order & Pay <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- CHECKOUT & DUAL PAYMENT MODAL                                             -->
+  <!-- ========================================================================= -->
+  <div id="checkout-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog checkout-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-shield-check modal-icon"></i>
+          <h3>Quick Checkout & Pickup Setup</h3>
+        </div>
+        <button class="modal-close-btn" id="checkout-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Customer Details -->
+        <div class="form-section">
+          <h4 class="form-section-title"><i class="fa-solid fa-user"></i> Student Pickup Contact</h4>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="cust-name-input">Full Name / Student Name <span class="req">*</span></label>
+              <input type="text" id="cust-name-input" placeholder="e.g., Vikram Aditya" required />
+            </div>
+            <div class="form-group">
+              <label for="cust-phone-input">Mobile Number (or Roll No) <span class="req">*</span></label>
+              <input type="tel" id="cust-phone-input" placeholder="e.g., 9876543210" maxlength="10" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Selection -->
+        <div class="form-section">
+          <h4 class="form-section-title"><i class="fa-solid fa-wallet"></i> Choose Payment Method</h4>
+          
+          <div class="payment-method-selector">
+            <!-- Option A: Dynamic UPI -->
+            <label class="payment-option selected" id="opt-upi">
+              <input type="radio" name="payment_method" value="UPI" checked />
+              <div class="payment-card-inner">
+                <div class="pay-badge-row">
+                  <span class="pay-badge instant"><i class="fa-solid fa-bolt"></i> Recommended</span>
+                  <i class="fa-solid fa-qrcode pay-icon"></i>
+                </div>
+                <h5>UPI Dynamic QR Pay</h5>
+                <p>Instant contactless verification via GPay, PhonePe, Paytm or any UPI app.</p>
+              </div>
+            </label>
+
+            <!-- Option B: Pay at Counter -->
+            <label class="payment-option" id="opt-counter">
+              <input type="radio" name="payment_method" value="Pay at Counter" />
+              <div class="payment-card-inner">
+                <div class="pay-badge-row">
+                  <span class="pay-badge cash"><i class="fa-solid fa-hand-holding-dollar"></i> Counter</span>
+                  <i class="fa-solid fa-money-bill-wave pay-icon"></i>
+                </div>
+                <h5>Pay at Counter</h5>
+                <p>Cash or counter card. Order tagged as "Pending Counter Payment" until verified.</p>
+              </div>
+            </label>
+          </div>
+
+          <!-- Dynamic UPI Display Container -->
+          <div id="upi-qr-container" class="upi-qr-box">
+            <div class="upi-qr-left">
+              <div id="qr-code-mount" class="qr-code-mount">
+                <!-- QR Code rendered here -->
+              </div>
+              <span class="qr-scan-tag">Scan with any UPI App</span>
+            </div>
+            <div class="upi-qr-right">
+              <div class="upi-amount-pill">
+                Amount: <strong id="upi-display-amount">₹0.00</strong>
+              </div>
+              <div class="upi-vpa-details">
+                <span>VPA ID:</span>
+                <code>tuckshop@upi</code>
+              </div>
+              <div class="upi-sim-note">
+                <i class="fa-solid fa-circle-check text-success"></i> Instant auto-confirm token pass generated upon payment.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Items Summary Review -->
+        <div class="form-section checkout-summary-pill">
+          <div class="summary-line">
+            <span>Items to pack:</span>
+            <span id="checkout-items-count">0 items</span>
+          </div>
+          <div class="summary-line font-bold">
+            <span>Total Payable:</span>
+            <span id="checkout-total-payable" class="accent">₹0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-cancel-checkout" class="btn btn-secondary">Cancel</button>
+        <button id="btn-confirm-order" class="btn btn-primary btn-confirm-order">
+          <i class="fa-solid fa-ticket"></i> Place Order & Generate 4-Digit Token
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- DIGITAL PICKUP PASS MODAL (MASSIVE 4-DIGIT TOKEN)                         -->
+  <!-- ========================================================================= -->
+  <div id="pass-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog pass-dialog">
+      <div class="pass-card">
+        <div class="pass-header">
+          <div class="pass-brand">
+            <i class="fa-solid fa-store"></i>
+            <span>CAMPUS TUCK SHOP PASS</span>
+          </div>
+          <button class="pass-close-btn" id="pass-close-btn" title="Minimize Pass">&times;</button>
+        </div>
+
+        <div class="pass-instruction-banner">
+          <i class="fa-solid fa-mobile-screen-button"></i> Flash this screen from a distance at the tuck shop pickup counter!
+        </div>
+
+        <!-- GIANT TOKEN DISPLAY -->
+        <div class="giant-token-box">
+          <span class="token-label">PICKUP TOKEN NUMBER</span>
+          <div class="giant-token-number" id="pass-token-number">#----</div>
+          <div class="order-id-label" id="pass-order-id">ORD-000</div>
+        </div>
+
+        <!-- Live Order Status Stepper -->
+        <div class="order-stepper-box">
+          <div class="stepper-title-row">
+            <span class="stepper-label">Order Progress</span>
+            <span class="stepper-state-badge" id="pass-status-pill">Pending</span>
+          </div>
+
+          <div class="stepper-track">
+            <div class="step-node" id="step-1">
+              <div class="node-circle"><i class="fa-solid fa-clipboard-check"></i></div>
+              <span class="node-name">Placed</span>
+            </div>
+            <div class="step-connector" id="conn-1"></div>
+            <div class="step-node" id="step-2">
+              <div class="node-circle"><i class="fa-solid fa-boxes-packing"></i></div>
+              <span class="node-name">Packing</span>
+            </div>
+            <div class="step-connector" id="conn-2"></div>
+            <div class="step-node" id="step-3">
+              <div class="node-circle"><i class="fa-solid fa-bell"></i></div>
+              <span class="node-name">Ready!</span>
+            </div>
+            <div class="step-connector" id="conn-3"></div>
+            <div class="step-node" id="step-4">
+              <div class="node-circle"><i class="fa-solid fa-circle-check"></i></div>
+              <span class="node-name">Handed Over</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Granular Live Basket Packing Checklist Tracker -->
+        <div class="pass-packing-section" id="pass-packing-section">
+          <div class="pass-packing-header">
+            <div class="pass-packing-title">
+              <i class="fa-solid fa-basket-shopping text-accent"></i>
+              <span>Live Basket Packing Feed</span>
+            </div>
+            <span class="live-sync-pill"><span class="live-beacon"></span> Live Counter Feed</span>
+          </div>
+
+          <div class="pass-packing-progress-bar-wrap">
+            <div class="pass-packing-progress-label">
+              <span id="pass-packing-count-text">0 of 0 items packed</span>
+              <span id="pass-packing-percent-text" class="pass-packing-pct">0%</span>
+            </div>
+            <div class="pass-progress-track">
+              <div class="pass-progress-fill" id="pass-progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="pass-packing-items-list" id="pass-packing-items-list">
+            <!-- Populated dynamically via app.js -->
+          </div>
+
+          <div id="pass-packing-all-done-banner" class="pass-all-done-banner hidden">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>All items packed! Present token #<strong id="pass-done-token">---</strong> at the counter</span>
+          </div>
+        </div>
+
+        <!-- Pass Info List -->
+        <div class="pass-details-box">
+          <div class="pass-row">
+            <span class="pass-prop">Student Name:</span>
+            <strong id="pass-customer-name">---</strong>
+          </div>
+          <div class="pass-row">
+            <span class="pass-prop">Payment:</span>
+            <span id="pass-payment-status" class="payment-badge-pill">Paid</span>
+          </div>
+          <div class="pass-row total">
+            <span class="pass-prop">Total Amount:</span>
+            <strong id="pass-total-amount" class="pass-price-highlight">₹0.00</strong>
+          </div>
+        </div>
+
+        <div class="pass-actions">
+          <button id="btn-minimize-pass" class="btn btn-secondary">
+            <i class="fa-solid fa-minimize"></i> Minimize & Keep in Top Bar
+          </button>
+          <button id="btn-new-order-pass" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Order More Items
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- "NOTIFY ME WHEN AVAILABLE" MODAL                                          -->
+  <!-- ========================================================================= -->
+  <div id="notify-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog notify-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-bell text-accent modal-icon"></i>
+          <h3>Restock Notification</h3>
+        </div>
+        <button class="modal-close-btn" id="notify-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="notify-product-preview">
+          <img id="notify-prod-img" src="" alt="Product Preview" class="notify-prod-thumb" />
+          <div>
+            <h4 id="notify-prod-title">Product Title</h4>
+            <span class="food-cat-badge" id="notify-prod-cat" style="position:static;">Category</span>
+            <p class="notify-prod-price" id="notify-prod-price">₹0.00</p>
+          </div>
+        </div>
+
+        <p class="notify-hint">This item is currently sold out. Enter your Mobile Number or College Roll Number to receive an instant restock alert when new supplies land at the tuck shop!</p>
+
+        <form id="notify-form">
+          <input type="hidden" id="notify-product-id" />
+          <div class="form-group">
+            <label for="notify-subscriber-input">Mobile Number or Roll No. <span class="req">*</span></label>
+            <input type="text" id="notify-subscriber-input" placeholder="e.g., 9876543210 or 22BCSE104" required />
+          </div>
+
+          <div class="modal-footer" style="padding: 1rem 0 0 0;">
+            <button type="button" id="btn-cancel-notify" class="btn btn-secondary">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-bell"></i> Notify Me When Available</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ADMIN PIN AUTH MODAL                                                      -->
+  <!-- ========================================================================= -->
+  <div id="pin-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog pin-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-lock modal-icon text-accent"></i>
+          <h3>Shopkeeper Access</h3>
+        </div>
+        <button class="modal-close-btn" id="pin-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body text-center">
+        <p class="pin-hint">Enter your 4-digit Tuck Shop Master PIN to manage orders, inventory, and restock demands.</p>
+        <p class="pin-subhint text-muted">(Default PIN: <strong>1234</strong>)</p>
+
+        <div class="pin-input-group">
+          <input type="password" id="admin-pin-input" maxlength="4" placeholder="••••" autocomplete="off" />
+        </div>
+        <div id="pin-error-msg" class="pin-error hidden">Invalid PIN. Please try again.</div>
+
+        <!-- Number Pad -->
+        <div class="keypad-grid">
+          <button class="key-btn" data-val="1">1</button>
+          <button class="key-btn" data-val="2">2</button>
+          <button class="key-btn" data-val="3">3</button>
+          <button class="key-btn" data-val="4">4</button>
+          <button class="key-btn" data-val="5">5</button>
+          <button class="key-btn" data-val="6">6</button>
+          <button class="key-btn" data-val="7">7</button>
+          <button class="key-btn" data-val="8">8</button>
+          <button class="key-btn" data-val="9">9</button>
+          <button class="key-btn key-clear" id="key-clear-btn"><i class="fa-solid fa-delete-left"></i></button>
+          <button class="key-btn" data-val="0">0</button>
+          <button class="key-btn key-enter" id="key-enter-btn"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ADD NEW PRODUCT MODAL (ADMIN)                                             -->
+  <!-- ========================================================================= -->
+  <div id="add-dish-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog add-dish-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-box-open modal-icon"></i>
+          <h3>Add New Product to Inventory</h3>
+        </div>
+        <button class="modal-close-btn" id="add-dish-close-btn">&times;</button>
+      </div>
+
+      <form id="add-dish-form" class="modal-body">
+        <div class="form-group">
+          <label for="dish-name">Product Name <span class="req">*</span></label>
+          <input type="text" id="dish-name" placeholder="e.g., Pilot V5 Hi-Techpoint Pen or Cold Coffee" required />
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="dish-category">Category <span class="req">*</span></label>
+            <select id="dish-category" required>
+              <option value="Beverages">Beverages</option>
+              <option value="Snacks & Biscuits">Snacks & Biscuits</option>
+              <option value="Stationery & Supplies">Stationery & Supplies</option>
+              <option value="Daily Essentials">Daily Essentials</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dish-price">Price in INR (₹) <span class="req">*</span></label>
+            <input type="number" id="dish-price" min="1" step="0.5" placeholder="e.g., 50" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dish-image">Image URL <span class="req">*</span></label>
+          <input type="url" id="dish-image" placeholder="https://images.unsplash.com/..." required />
+          <div class="preset-images-row">
+            <span>Quick sample photos:</span>
+            <button type="button" class="preset-img-btn" data-url="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80">Notebook</button>
+            <button type="button" class="preset-img-btn" data-url="https://images.unsplash.com/photo-1585336261026-41866443bdab?w=600&auto=format&fit=crop&q=80">Pens</button>
+            <button type="button" class="preset-img-btn" data-url="https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&auto=format&fit=crop&q=80">Chips</button>
+            <button type="button" class="preset-img-btn" data-url="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format&fit=crop&q=80">Coffee</button>
+            <button type="button" class="preset-img-btn" data-url="https://images.unsplash.com/photo-1607006483702-326002f23249?w=600&auto=format&fit=crop&q=80">Soap/Care</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dish-desc">Product Description</label>
+          <textarea id="dish-desc" rows="2" placeholder="Brief description, brand, or packing details..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-add-dish" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Save to Inventory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- EDIT PRODUCT MODAL (ADMIN)                                                -->
+  <!-- ========================================================================= -->
+  <div id="edit-prod-modal" class="modal-backdrop hidden-modal">
+    <div class="modal-dialog add-dish-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-pen-to-square modal-icon"></i>
+          <h3>Edit Product Details</h3>
+        </div>
+        <button class="modal-close-btn" id="edit-prod-close-btn">&times;</button>
+      </div>
+
+      <form id="edit-prod-form" class="modal-body">
+        <input type="hidden" id="edit-prod-id" />
+        
+        <div class="form-group">
+          <label for="edit-prod-name">Product Name <span class="req">*</span></label>
+          <input type="text" id="edit-prod-name" required />
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edit-prod-category">Category <span class="req">*</span></label>
+            <select id="edit-prod-category" required>
+              <option value="Beverages">Beverages</option>
+              <option value="Snacks & Biscuits">Snacks & Biscuits</option>
+              <option value="Stationery & Supplies">Stationery & Supplies</option>
+              <option value="Daily Essentials">Daily Essentials</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-prod-price">Price in INR (₹) <span class="req">*</span></label>
+            <input type="number" id="edit-prod-price" min="1" step="0.5" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-prod-image">Image URL <span class="req">*</span></label>
+          <input type="url" id="edit-prod-image" required />
+        </div>
+
+        <div class="form-group">
+          <label for="edit-prod-desc">Description</label>
+          <textarea id="edit-prod-desc" rows="2"></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-edit-prod" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Update Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+[
+  {
+    "id": 101,
+    "name": "Classmate Long Register (200 Pgs)",
+    "category": "Stationery & Supplies",
+    "price": 85.0,
+    "is_sold_out": true,
+    "img_url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+    "description": "Premium quality hardbound ruled 200-page notebook for lecture notes and assignments."
+  },
+  {
+    "id": 102,
+    "name": "Reynolds 045 Fine Ball Pens (Pack of 5)",
+    "category": "Stationery & Supplies",
+    "price": 50.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1585336261026-41866443bdab?w=600&auto=format&fit=crop&q=80",
+    "description": "Smooth writing reliable blue ballpoint pens with laser tip technology."
+  },
+  {
+    "id": 103,
+    "name": "A4 Assignment Ruled Sheets (100 Sheets)",
+    "category": "Stationery & Supplies",
+    "price": 75.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&auto=format&fit=crop&q=80",
+    "description": "Standard university punch-hole submission sheets with margin lines."
+  },
+  {
+    "id": 104,
+    "name": "Practical Lab Journal & File Cover",
+    "category": "Stationery & Supplies",
+    "price": 60.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&auto=format&fit=crop&q=80",
+    "description": "Standard spiral-bound practical lab record book with transparent protective file folder."
+  },
+  {
+    "id": 105,
+    "name": "Nescafe Classic Cold Coffee Frappe",
+    "category": "Beverages",
+    "price": 65.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format&fit=crop&q=80",
+    "description": "Thick blended chilled espresso frappe with rich chocolate drizzle."
+  },
+  {
+    "id": 106,
+    "name": "Red Bull Energy Drink (250ml Can)",
+    "category": "Beverages",
+    "price": 125.0,
+    "is_sold_out": true,
+    "img_url": "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=600&auto=format&fit=crop&q=80",
+    "description": "Chilled caffeinated taurine energy drink for late night study sessions."
+  },
+  {
+    "id": 107,
+    "name": "Real Mixed Fruit Juice (1L Tetrapak)",
+    "category": "Beverages",
+    "price": 110.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&auto=format&fit=crop&q=80",
+    "description": "Nutritious blend of 9 fruits with no added preservatives."
+  },
+  {
+    "id": 108,
+    "name": "Tropicana 100% Orange Juice (200ml)",
+    "category": "Beverages",
+    "price": 35.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&auto=format&fit=crop&q=80",
+    "description": "Pure zesty orange juice with natural fruit pulp."
+  },
+  {
+    "id": 109,
+    "name": "Lay's India's Magic Masala Chips (50g)",
+    "category": "Snacks & Biscuits",
+    "price": 20.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&auto=format&fit=crop&q=80",
+    "description": "Crispy crinkled potato chips infused with exotic Indian spice blends."
+  },
+  {
+    "id": 110,
+    "name": "Oreo Chocolate Sandwich Biscuits (120g)",
+    "category": "Snacks & Biscuits",
+    "price": 35.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop&q=80",
+    "description": "Rich dark cocoa wafer cookies with sweet vanilla cream filling."
+  },
+  {
+    "id": 111,
+    "name": "Cadbury Dairy Milk Silk Chocolate (60g)",
+    "category": "Snacks & Biscuits",
+    "price": 80.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&auto=format&fit=crop&q=80",
+    "description": "Smooth, velvety premium milk chocolate bar that melts in your mouth."
+  },
+  {
+    "id": 112,
+    "name": "Parle-G Gold Glucose Biscuits (Pack of 2)",
+    "category": "Snacks & Biscuits",
+    "price": 20.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=600&auto=format&fit=crop&q=80",
+    "description": "Classic crunchy tea-time glucose biscuits packed with energy."
+  },
+  {
+    "id": 113,
+    "name": "Dettol Anti-Bacterial Soap Bar (75g)",
+    "category": "Daily Essentials",
+    "price": 38.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1607006483702-326002f23249?w=600&auto=format&fit=crop&q=80",
+    "description": "Trusted germ protection hygiene bath bar with soothing pine fragrance."
+  },
+  {
+    "id": 114,
+    "name": "Colgate Total Toothpaste (80g)",
+    "category": "Daily Essentials",
+    "price": 60.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1559591937-e1032b4eb1e0?w=600&auto=format&fit=crop&q=80",
+    "description": "12-hour whole mouth antibacterial protection for fresh breath and clean teeth."
+  },
+  {
+    "id": 115,
+    "name": "Lifebuoy Instant Hand Sanitizer (50ml)",
+    "category": "Daily Essentials",
+    "price": 30.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?w=600&auto=format&fit=crop&q=80",
+    "description": "Kills 99.9% germs without water, travel-friendly pocket size with moisturizer."
+  },
+  {
+    "id": 116,
+    "name": "Pocket Wet Wipes & Facial Tissues (Pack of 30)",
+    "category": "Daily Essentials",
+    "price": 45.0,
+    "is_sold_out": false,
+    "img_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80",
+    "description": "Soft refreshing antibacterial aloe vera cleansing wet wipes for campus days."
+  }
+]

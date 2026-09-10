@@ -1,0 +1,41 @@
+[
+  {
+    "product_id": 101,
+    "product_name": "Classmate Long Register (200 Pgs)",
+    "subscribers": [
+      "9876543210",
+      "9812345678",
+      "22BCSE104"
+    ],
+    "status": "Pending",
+    "updated_at": "2026-09-10T14:50:00.000Z"
+  },
+  {
+    "product_id": 109,
+    "product_name": "Red Bull Energy Drink (250ml Can)",
+    "subscribers": [
+      "9988776655",
+      "23EC015"
+    ],
+    "status": "Pending",
+    "updated_at": "2026-09-10T14:55:00.000Z"
+  },
+  {
+    "product_id": 116,
+    "product_name": "Classmate Geometry Box",
+    "subscribers": [
+      "24BCSE999"
+    ],
+    "status": "Alerted",
+    "updated_at": "2026-09-10T10:15:41.742069+00:00"
+  },
+  {
+    "product_id": 117,
+    "product_name": "Classmate Geometry Box",
+    "subscribers": [
+      "24BCSE999"
+    ],
+    "status": "Alerted",
+    "updated_at": "2026-09-10T11:23:11.234791+00:00"
+  }
+]
