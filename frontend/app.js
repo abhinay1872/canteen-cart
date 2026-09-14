@@ -159,6 +159,7 @@ const state = {
   activeCustomerOrder: JSON.parse(localStorage.getItem('ck_active_order') || 'null'),
   selectedCategory: 'ALL',
   searchQuery: '',
+  sortBy: 'default',
   isAdmin: false,
   kdsFilter: 'ACTIVE',
   adminMenuSearch: '',
@@ -504,6 +505,15 @@ const realtime = new RealtimeSync();
 // ---------------------------------------------------------------------------
 // 6. MENU & PRODUCT RENDERING
 // ---------------------------------------------------------------------------
+function getCategoryIcon(cat) {
+  const c = (cat || '').toLowerCase();
+  if (c.includes('beverage')) return 'fa-mug-hot';
+  if (c.includes('snack') || c.includes('biscuit') || c.includes('magg')) return 'fa-cookie-bite';
+  if (c.includes('stationery') || c.includes('supplies') || c.includes('book') || c.includes('pen')) return 'fa-book-bookmark';
+  if (c.includes('essential') || c.includes('daily') || c.includes('soap')) return 'fa-pump-soap';
+  return 'fa-box';
+}
+
 function getProductWaitlistCount(productId) {
   const notif = state.notifications.find(n => n.product_id === productId && n.status === 'Pending');
   return notif && notif.subscribers ? notif.subscribers.length : 0;
@@ -516,7 +526,7 @@ function renderMenu() {
   const catTitle = document.getElementById('current-category-title');
   if (!grid) return;
 
-  let filtered = state.products;
+  let filtered = [...state.products];
 
   if (state.selectedCategory !== 'ALL') {
     filtered = filtered.filter(p => p.category.toLowerCase() === state.selectedCategory.toLowerCase());
@@ -531,11 +541,25 @@ function renderMenu() {
     );
   }
 
+  // Apply Sorting
+  const sortSelect = document.getElementById('product-sort-select');
+  const currentSort = state.sortBy || (sortSelect ? sortSelect.value : 'default');
+
+  if (currentSort === 'price-asc') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (currentSort === 'price-desc') {
+    filtered.sort((a, b) => b.price - a.price);
+  } else if (currentSort === 'name-asc') {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (currentSort === 'in-stock') {
+    filtered.sort((a, b) => (a.is_sold_out === b.is_sold_out ? 0 : a.is_sold_out ? 1 : -1));
+  }
+
   if (catTitle) {
     catTitle.textContent = state.selectedCategory === 'ALL' ? 'All Items' : `${state.selectedCategory}`;
   }
   if (counterLabel) {
-    counterLabel.textContent = `Showing ${filtered.length} items`;
+    counterLabel.textContent = `${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
   }
 
   if (filtered.length === 0) {
@@ -546,33 +570,72 @@ function renderMenu() {
 
   if (emptyState) emptyState.classList.add('hidden');
 
-  grid.innerHTML = filtered.map(product => {
+  grid.innerHTML = filtered.map((product, index) => {
     const cartItem = state.cart.find(item => item.id === product.id);
     const inCartQty = cartItem ? cartItem.qty : 0;
     const isSoldOut = product.is_sold_out;
     const waitingCount = getProductWaitlistCount(product.id);
+    const hasCart = inCartQty > 0;
+    const catIcon = getCategoryIcon(product.category);
 
     return `
-      <div class="food-card ${isSoldOut ? 'sold-out' : ''}" data-id="${product.id}">
+      <div class="food-card ${isSoldOut ? 'sold-out' : ''} ${hasCart ? 'in-cart' : ''}" 
+           data-id="${product.id}" 
+           style="--card-index: ${index};">
+        
         <div class="food-img-wrap">
-          <img src="${product.img_url}" alt="${escapeHtml(product.name)}" class="food-img" loading="lazy" />
-          <span class="food-cat-badge">${escapeHtml(product.category)}</span>
-          ${isSoldOut ? '<div class="sold-out-overlay-badge">SOLD OUT</div>' : ''}
+          <img src="${product.img_url}" 
+               alt="${escapeHtml(product.name)}" 
+               class="food-img" 
+               loading="lazy" 
+               onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80';" />
+          
+          <div class="card-badges-top">
+            <span class="food-cat-badge">
+              <i class="fa-solid ${catIcon}"></i> ${escapeHtml(product.category)}
+            </span>
+            ${isSoldOut ? `
+              <span class="stock-status-badge stock-badge-soldout">
+                <i class="fa-solid fa-clock-rotate-left"></i> Sold Out
+              </span>
+            ` : (hasCart ? `
+              <span class="stock-status-badge stock-badge-incart">
+                <i class="fa-solid fa-cart-check"></i> ${inCartQty} in Kart
+              </span>
+            ` : `
+              <span class="stock-status-badge stock-badge-instock">
+                <span class="stock-dot"></span> Available
+              </span>
+            `)}
+          </div>
+
+          ${isSoldOut ? `
+            <div class="sold-out-overlay">
+              <span class="sold-out-pill"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span>
+            </div>
+          ` : ''}
         </div>
 
         <div class="food-card-body">
-          <h4 class="food-title">${escapeHtml(product.name)}</h4>
+          <div class="food-header-row">
+            <h4 class="food-title" title="${escapeHtml(product.name)}">${escapeHtml(product.name)}</h4>
+          </div>
+          
           <p class="food-desc">${escapeHtml(product.description || 'Essential campus item ready for instant pickup.')}</p>
           
           ${isSoldOut && waitingCount > 0 ? `
             <div class="restock-demand-pill">
-              <i class="fa-solid fa-fire"></i> ${waitingCount} student${waitingCount > 1 ? 's' : ''} waiting
+              <i class="fa-solid fa-fire"></i>
+              <span><strong>${waitingCount}</strong> student${waitingCount > 1 ? 's' : ''} waiting for restock</span>
             </div>
           ` : ''}
 
           <div class="food-card-footer">
-            <div class="food-price">
-              <span class="rupee-symbol">₹</span>${product.price.toFixed(2)}
+            <div class="food-price-wrap">
+              <span class="price-label">Price</span>
+              <div class="food-price">
+                <span class="rupee-symbol">₹</span>${product.price.toFixed(2)}
+              </div>
             </div>
 
             <div class="food-card-action">
@@ -582,11 +645,11 @@ function renderMenu() {
                 </button>
               ` : (inCartQty > 0 ? `
                 <div class="card-qty-stepper">
-                  <button class="qty-step-btn" onclick="decrementCartItem(${product.id})" aria-label="Decrease quantity">
+                  <button class="qty-step-btn minus" onclick="decrementCartItem(${product.id})" aria-label="Decrease quantity">
                     <i class="fa-solid fa-minus"></i>
                   </button>
                   <span class="qty-step-val">${inCartQty}</span>
-                  <button class="qty-step-btn" onclick="addToCart(${product.id})" aria-label="Increase quantity">
+                  <button class="qty-step-btn plus" onclick="addToCart(${product.id})" aria-label="Increase quantity">
                     <i class="fa-solid fa-plus"></i>
                   </button>
                 </div>
@@ -1783,9 +1846,20 @@ function setupEventListeners() {
     });
   }
 
+  // Sort Selector
+  const sortSelect = document.getElementById('product-sort-select');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      state.sortBy = e.target.value;
+      renderMenu();
+    });
+  }
+
   document.getElementById('reset-filter-btn')?.addEventListener('click', () => {
     state.selectedCategory = 'ALL';
     state.searchQuery = '';
+    state.sortBy = 'default';
+    if (sortSelect) sortSelect.value = 'default';
     if (searchInput) searchInput.value = '';
     document.querySelectorAll('.cat-pill').forEach(b => b.classList.toggle('active', b.dataset.category === 'ALL'));
     renderMenu();

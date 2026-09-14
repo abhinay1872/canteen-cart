@@ -118,11 +118,27 @@
       <!-- Catalog Section -->
       <div class="menu-section-container">
         <div class="menu-header-bar">
-          <div>
-            <h3 class="section-title" id="current-category-title">All Items</h3>
+          <div class="menu-header-info">
+            <div class="menu-title-row">
+              <h3 class="section-title" id="current-category-title">All Items</h3>
+              <span class="menu-item-count-badge" id="menu-counter-label">16 items</span>
+            </div>
             <p class="section-subtitle">Tuck shop essentials & refreshments ready for quick counter handover</p>
           </div>
-          <div class="menu-item-count-label" id="menu-counter-label">Showing 16 items</div>
+
+          <div class="menu-toolbar-actions">
+            <div class="sort-selector-wrap">
+              <i class="fa-solid fa-arrow-down-short-wide sort-icon"></i>
+              <label for="product-sort-select" class="sr-only">Sort Products</label>
+              <select id="product-sort-select" class="product-sort-select" aria-label="Sort products">
+                <option value="default">Featured / Default</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="in-stock">In Stock First</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Menu / Product Grid -->

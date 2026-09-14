@@ -5,7 +5,7 @@
     "category": "Stationery & Supplies",
     "price": 85.0,
     "is_sold_out": true,
-    "img_url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+    "img_url": "classmate_register.jpg",
     "description": "Premium quality hardbound ruled 200-page notebook for lecture notes and assignments."
   },
   {
@@ -14,7 +14,7 @@
     "category": "Stationery & Supplies",
     "price": 50.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1585336261026-41866443bdab?w=600&auto=format&fit=crop&q=80",
+    "img_url": "reynolds_pens.jpg",
     "description": "Smooth writing reliable blue ballpoint pens with laser tip technology."
   },
   {
@@ -23,7 +23,7 @@
     "category": "Stationery & Supplies",
     "price": 75.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&auto=format&fit=crop&q=80",
+    "img_url": "a4_assignment_sheets.jpg",
     "description": "Standard university punch-hole submission sheets with margin lines."
   },
   {
@@ -32,7 +32,7 @@
     "category": "Stationery & Supplies",
     "price": 60.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&auto=format&fit=crop&q=80",
+    "img_url": "lab_journal.jpg",
     "description": "Standard spiral-bound practical lab record book with transparent protective file folder."
   },
   {
@@ -41,7 +41,7 @@
     "category": "Beverages",
     "price": 65.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format&fit=crop&q=80",
+    "img_url": "nescafe_frappe.jpg",
     "description": "Thick blended chilled espresso frappe with rich chocolate drizzle."
   },
   {
@@ -50,7 +50,7 @@
     "category": "Beverages",
     "price": 125.0,
     "is_sold_out": true,
-    "img_url": "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=600&auto=format&fit=crop&q=80",
+    "img_url": "redbull_can.jpg",
     "description": "Chilled caffeinated taurine energy drink for late night study sessions."
   },
   {
@@ -59,7 +59,7 @@
     "category": "Beverages",
     "price": 110.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&auto=format&fit=crop&q=80",
+    "img_url": "real_mixed_fruit.jpg",
     "description": "Nutritious blend of 9 fruits with no added preservatives."
   },
   {
@@ -68,7 +68,7 @@
     "category": "Beverages",
     "price": 35.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&auto=format&fit=crop&q=80",
+    "img_url": "tropicana_orange.png",
     "description": "Pure zesty orange juice with natural fruit pulp."
   },
   {
@@ -77,7 +77,7 @@
     "category": "Snacks & Biscuits",
     "price": 20.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&auto=format&fit=crop&q=80",
+    "img_url": "lays_magic_masala.jpg",
     "description": "Crispy crinkled potato chips infused with exotic Indian spice blends."
   },
   {
@@ -86,7 +86,7 @@
     "category": "Snacks & Biscuits",
     "price": 35.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop&q=80",
+    "img_url": "oreo_chocolate.png",
     "description": "Rich dark cocoa wafer cookies with sweet vanilla cream filling."
   },
   {
@@ -95,7 +95,7 @@
     "category": "Snacks & Biscuits",
     "price": 80.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&auto=format&fit=crop&q=80",
+    "img_url": "cadbury_silk.jpg",
     "description": "Smooth, velvety premium milk chocolate bar that melts in your mouth."
   },
   {
@@ -104,7 +104,7 @@
     "category": "Snacks & Biscuits",
     "price": 20.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=600&auto=format&fit=crop&q=80",
+    "img_url": "parle_g_gold.png",
     "description": "Classic crunchy tea-time glucose biscuits packed with energy."
   },
   {
@@ -113,7 +113,7 @@
     "category": "Daily Essentials",
     "price": 38.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1607006483702-326002f23249?w=600&auto=format&fit=crop&q=80",
+    "img_url": "dettol_soap.png",
     "description": "Trusted germ protection hygiene bath bar with soothing pine fragrance."
   },
   {
@@ -122,7 +122,7 @@
     "category": "Daily Essentials",
     "price": 60.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1559591937-e1032b4eb1e0?w=600&auto=format&fit=crop&q=80",
+    "img_url": "colgate_toothpaste.png",
     "description": "12-hour whole mouth antibacterial protection for fresh breath and clean teeth."
   },
   {
@@ -131,7 +131,7 @@
     "category": "Daily Essentials",
     "price": 30.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?w=600&auto=format&fit=crop&q=80",
+    "img_url": "lifebuoy_sanitizer.png",
     "description": "Kills 99.9% germs without water, travel-friendly pocket size with moisturizer."
   },
   {
@@ -140,7 +140,7 @@
     "category": "Daily Essentials",
     "price": 45.0,
     "is_sold_out": false,
-    "img_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80",
+    "img_url": "tissue_paper.jpg",
     "description": "Soft refreshing antibacterial aloe vera cleansing wet wipes for campus days."
   }
 ]
